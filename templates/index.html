@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">Insta-News</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-nav-scroll">
+          <li class="nav-item">
+            <a class="nav-link {% if query == 'latest' %}active{% endif %}" href="/?query=latest">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if query == 'world' %}active{% endif %}" href="/?query=world">World</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if query == 'Finance' %}active{% endif %}" href="/?query=Finance">Finance</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if query == 'Anime' %}active{% endif %}" href="/?query=Anime">Anime</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if query == 'Fashion' %}active{% endif %}" href="/?query=Fashion">Fashion</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if query == 'Tv' %}active{% endif %}" href="/?query=Tv">Television</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if query == 'animals' %}active{% endif %}" href="/?query=animals">Animals</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if query == 'Law' %}active{% endif %}" href="/?query=Law">Law</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if query == 'Social media' %}active{% endif %}" href="/?query=Social media">Social media</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if query == 'memes' %}active{% endif %}" href="/?query=memes">Memes</a>
+          </li>
+        </ul>
+        <form class="d-flex search-form" role="search" method="GET" action="/">
+          <input class="form-control" value="{{query}}" type="search" name="query" placeholder="Search..." aria-label="Search"/>
+          <button class="btn" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <h1 style="color: black;">Insta-News</h1>
+      <p class="hero-subtitle">Your daily briefing, curated from trusted sources.</p>
+    </div>
+  </section>
+
+  <section class="articles-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-title">{% if query %}Results for "{{ query }}"{% else %}Latest Headlines{% endif %}</span>
+      </div>
+
+      {% if articles %}
+      <div class="news-grid">
+        {% for article in articles %}
+        <article class="news-card">
+          <div class="card-img-wrapper">
+            {% if article.urlToImage %}
+                <img src="{{article.urlToImage}}" class="card-img-top" alt="{{article.title}}" loading="lazy">
+            {% else %}
+                <div class="no-image-placeholder">No image available</div>
+            {% endif %}
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"><a href="{{article.url}}" target="_blank" rel="noopener noreferrer">{{article.title}}</a></h5>
+            <p class="card-text">{{article.description}}</p>
+          </div>
+          <div class="card-footer">
+            <span>{{article.publishedAt}}</span>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="alert-empty">
+        <p>No articles found. Try a different search or explore our categories above.</p>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
